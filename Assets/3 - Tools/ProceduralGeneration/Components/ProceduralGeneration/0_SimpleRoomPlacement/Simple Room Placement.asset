@@ -16,4 +16,4 @@ MonoBehaviour:
   _maxRooms: 30
   _minRoomSize: {x: 5, y: 5}
   _maxRoomSize: {x: 10, y: 10}
-  _spacing: 1
+  _spacing: 3
