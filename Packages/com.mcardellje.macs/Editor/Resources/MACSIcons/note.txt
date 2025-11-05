@@ -1,0 +1,2 @@
+Icons from https://remixicon.com/
+Except for VRCParameterBuiltin.png which is taken from VRChat

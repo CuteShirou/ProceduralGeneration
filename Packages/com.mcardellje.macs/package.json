@@ -1,0 +1,14 @@
+{
+  "name": "com.mcardellje.macs",
+  "displayName": "McArdellje's Controller Suite",
+  "version": "1.7.2",
+  "description": "A suite of tools to improve the animator workflow in Unity. non-VRChat version.",
+  "gitDependencies": {},
+  "vpmDependencies": {
+    "com.vrchat.avatars": ">=3.2.0"
+  },
+  "legacyFolders": {},
+  "legacyFiles": {},
+  "localPath": "E:\\Unity\\MACS Promo Project\\Packages\\com.mcardellje.macs",
+  "type": "tool"
+}
