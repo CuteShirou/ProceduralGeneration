@@ -206,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 65, y: 214.5, z: 64}
+  m_LocalPosition: {x: 250, y: 300, z: 261.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -412,14 +412,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbe3e69ae8e450b821d70157faac84e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridXValue: 1024
-  _gridYValue: 1024
+  _gridXValue: 512
+  _gridYValue: 512
   _cellSize: 1
   _startPosition: {x: 0, y: 0, z: 0}
   _generationMethod: {fileID: 11400000, guid: 788e65e604ac134489bbc255e6cf4e2a, type: 2}
   _drawDebug: 0
   _seed: 6952
-  _stepDelay: 10
+  _stepDelay: 30
 --- !u!4 &1922166660
 Transform:
   m_ObjectHideFlags: 0

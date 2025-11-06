@@ -1,11 +1,9 @@
-using System;
 using System.Threading;
 using Components.ProceduralGeneration;
 using Cysharp.Threading.Tasks;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Mathematics;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Procedural Generation Method/CellularAutomata (Burst)")]

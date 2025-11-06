@@ -1,5 +1,3 @@
-
-using System;
 using System.Threading;
 using Components.ProceduralGeneration;
 using Cysharp.Threading.Tasks;

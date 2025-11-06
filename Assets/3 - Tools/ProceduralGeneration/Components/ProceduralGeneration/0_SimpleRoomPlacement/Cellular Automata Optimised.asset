@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9d97a502f29844c8b34ad1fd4af943, type: 3}
   m_Name: Cellular Automata Optimised
   m_EditorClassIdentifier: Assembly-CSharp::CellularAutomataOptimised
-  _maxSteps: 1000
+  _maxSteps: 2000
   _noiseDensity: 50
-  _iterations: 5
+  _iterations: 20
   _solidBorder: 1
-  _birthThreshold: 5
+  _birthThreshold: 6
   _surviveThreshold: 4
   _seed: 0
+  _applyChunkSize: 10
