@@ -1,3 +1,4 @@
+
 using System;
 using System.Threading;
 using Components.ProceduralGeneration;
@@ -5,19 +6,26 @@ using Cysharp.Threading.Tasks;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Mathematics;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Procedural Generation Method/CellularAutomata (Burst)")]
-public class CellularAutomata : ProceduralGenerationMethod
+/// <summary>
+/// Optimized Cellular Automata generation with Burst for computation
+/// and progressive chunk-by-chunk application to the grid.
+/// </summary>
+[CreateAssetMenu(menuName = "Procedural Generation Method/CellularAutomata (Chunked)")]
+public class CellularAutomataOptimised : ProceduralGenerationMethod
 {
-    [Header("Automata")]
-    [Range(0,100)][SerializeField] private int _noiseDensity = 50;
-    [Min(1)][SerializeField] private int _iterations = 5;
+    [Header("Automata Settings")]
+    [Range(0,100)] [SerializeField] private int _noiseDensity = 50;
+    [Min(1)] [SerializeField] private int _iterations = 5;
     [SerializeField] private bool _solidBorder = true;
-    [Range(0,8)][SerializeField] private int _birthThreshold = 5;
-    [Range(0,8)][SerializeField] private int _surviveThreshold = 4;
+    [Range(0,8)] [SerializeField] private int _birthThreshold = 5;
+    [Range(0,8)] [SerializeField] private int _surviveThreshold = 4;
     [SerializeField] private uint _seed = 0;
+
+    [Header("Application Settings")]
+    [Tooltip("Size of chunks applied per frame. Example: 32 means 32x32 tiles per update.")]
+    [Range(8,128)] [SerializeField] private int _applyChunkSize = 32;
 
     protected override async UniTask ApplyGeneration(CancellationToken cancellationToken)
     {
@@ -59,26 +67,46 @@ public class CellularAutomata : ProceduralGenerationMethod
             var tmp = cur; cur = next; next = tmp;
         }
 
-        // Marshal to managed byte[] for fast batch apply on main thread
+        // Convert to managed data for Unity application
         var managed = cur.ToArray();
-        for (int y = 0; y < height; y++)
-        {
-            int rowStart = y * width;
-            for (int x = 0; x < width; x++)
-            {
-                byte v = managed[rowStart + x];
-                if (!Grid.TryGetCellByCoordinates(x, y, out var cell)) continue;
-                if (v == 1)
-                    AddTileToCell(cell, GRASS_TILE_NAME, true);
-                else
-                    AddTileToCell(cell, WATER_TILE_NAME, true);
-            }
-        }
-
         cur.Dispose();
         next.Dispose();
 
-        await UniTask.Yield();
+        int chunk = Mathf.Clamp(_applyChunkSize, 1, 256);
+        int totalChunksX = Mathf.CeilToInt(width / (float)chunk);
+        int totalChunksY = Mathf.CeilToInt(height / (float)chunk);
+
+        // Progressive application
+        for (int cy = 0; cy < totalChunksY; cy++)
+        {
+            for (int cx = 0; cx < totalChunksX; cx++)
+            {
+                int startX = cx * chunk;
+                int startY = cy * chunk;
+                int endX = Mathf.Min(startX + chunk, width);
+                int endY = Mathf.Min(startY + chunk, height);
+
+                // Apply this chunk to grid
+                for (int y = startY; y < endY; y++)
+                {
+                    int rowStart = y * width;
+                    for (int x = startX; x < endX; x++)
+                    {
+                        byte v = managed[rowStart + x];
+                        if (!Grid.TryGetCellByCoordinates(x, y, out var cell)) continue;
+
+                        if (v == 1)
+                            AddTileToCell(cell, GRASS_TILE_NAME, true);
+                        else
+                            AddTileToCell(cell, WATER_TILE_NAME, true);
+                    }
+                }
+
+                // Allow frame to breathe between chunks
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+        }
     }
 
     [BurstCompile]

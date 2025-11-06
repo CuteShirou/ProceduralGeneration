@@ -29,7 +29,7 @@ namespace VTools.Grid
         {
             if (_object != null)
             {
-                Object.Destroy(_object.Item2.gameObject);
+                VTools.Grid.GridObjectFactory.ReturnToPool(_object.Item2);
                 _object = null;
             }
         }
