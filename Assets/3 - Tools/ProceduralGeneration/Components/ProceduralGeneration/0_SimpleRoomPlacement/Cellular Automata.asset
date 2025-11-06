@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347b23f7af446f6428cb98a78fb4e2a9, type: 3}
   m_Name: Cellular Automata
   m_EditorClassIdentifier: Assembly-CSharp::CellularAutomata
-  _maxSteps: 6
+  _maxSteps: 10
   _noiseDensity: 40
