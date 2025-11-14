@@ -25,5 +25,5 @@ MonoBehaviour:
   sandHeight: -0.21
   grassHeight: 0.6
   rockHeight: 1
-  drawDebugTexture: 0
+  drawDebugTexture: 1
   debugTextureAlpha: 1
