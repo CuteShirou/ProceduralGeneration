@@ -46,6 +46,7 @@ protected override async UniTask ApplyGeneration(CancellationToken cancellationT
 ```
 
 Once it's done, you can generate the "SimpleRoomPlacement" assets.
+
 <img src="Documentation/AssetPreview.png?raw=true"/>
 
 ### First Generate a room 
